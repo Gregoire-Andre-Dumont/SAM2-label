@@ -4,8 +4,6 @@ import numpy as np
 from .base import BaseCallback
 from .helpers.text import TextDrawer
 from .helpers.images import blank_image, draw_box_outline
-
-# Typing
 from numpy import ndarray
 
 
