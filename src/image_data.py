@@ -19,8 +19,14 @@ class ImageData:
     def saved_masks(self) -> int:
         """Returns the number of segmentation masks created"""
 
-        mask_path = Path(self.storage_path) / 'masks'
-        return len(os.listdir(mask_path))
+        masks = Path(self.storage_path) / 'masks'
+        return len(os.listdir(masks))
+
+    def saved_images(self) -> int:
+        """Returns the number of images created"""
+
+        images = Path(self.storage_path) / 'images'
+        return len(os.listdir(images))
 
 
     def current_image(self) -> npt.NDArray[np.uint8]:

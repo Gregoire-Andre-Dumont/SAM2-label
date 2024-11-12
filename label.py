@@ -48,7 +48,6 @@ header_msgbar = StaticMessageBar(model_name, device, space_equally=True)
 horizontal = HStack(record_prompt_btn, saved_masks_btn, track_video_btn)
 
 
-
 #-----------------------------------------------------------------------------------------------------------------------
 # Initialize the ui for the current image
 
@@ -76,7 +75,7 @@ while not video.is_finished():
 
     # Set up shared image encoder settings to be cached
     image_encoder_dict = {"max_side_length": 1024, "use_square_sizing": False}
-    encoded_img, _, initial_img_hw = model.encode_image(full_image, **image_encoder_dict)
+    encoded_img, _, initial_hw = model.encode_image(full_image, **image_encoder_dict)
 
     # Set up helper for managing display data
     base_img_maker = ReusableBaseImage(full_image)
@@ -100,6 +99,11 @@ while not video.is_finished():
             label_is_finished = True
             cv2.destroyAllWindows()
 
+            # Display the number of saved masks
+            n_masks = video.saved_masks()
+            n_images = video.saved_images()
+            saved_masks_btn.set_text(f"{n_masks}/{n_images}")
+
         # Only run the model when an input affecting the output has changed!
         if need_prompt_encode:
             encoded_prompts = model.encode_prompts(*prompts)
@@ -110,7 +114,7 @@ while not video.is_finished():
         # Update mask previews & selected mask for outlines
         need_mask_update = any((need_prompt_encode, is_mask_changed))
         if need_mask_update:
-            selected_mask_uint8 = uictrl.create_hires_mask_uint8(mask_preds, mselect_idx, preencode_img_hw)
+            selected_mask_uint8 = uictrl.create_hires_mask_uint8(mask_preds, mselect_idx, initial_hw)
             uictrl.update_mask_previews(mask_preds)
 
         # Process contour data
@@ -126,7 +130,7 @@ while not video.is_finished():
         uictrl.update_main_display_image(disp_img, final_mask_uint8, mask_contours_norm)
 
         # Render final output
-        display_image = image_layout.render(h=900)
+        display_image = image_layout.render(h=display_size)
         req_break, keypress = window.show(display_image)
 
     video.save_mask(final_mask_uint8)
