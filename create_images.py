@@ -4,11 +4,28 @@ import cv2
 import os
 import random
 from PIL import Image
+from joblib import Parallel, delayed
 
 
 
 def load_images(n_samples: int, video_path: str, resize: tuple[int, int]):
-    """Extract and save randomly chosen video frames."""
+    """Extract and save randomly chosen frames in parallel."""
+
+    def save_frame(idx, frame_id):
+        """Extract and save a chosen video frame."""
+
+        # Initialize the video to the frame
+        cap = cv2.VideoCapture(video_path)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
+
+        # Load the chosen video frame using opencv
+        ret, frame = cap.read()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # resize and save the image using pillow
+        frame = Image.fromarray(frame).resize(resize)
+        frame.save(image_path / f"{idx:05d}.jpg")
+
 
     # Load the video and initialize the frames
     video = cv2.VideoCapture(video_path)
@@ -17,16 +34,8 @@ def load_images(n_samples: int, video_path: str, resize: tuple[int, int]):
 
     # Check whether the images are already loaded
     if not os.listdir(image_path):
-        for idx, frame_id in tqdm(enumerate(indices), total=n_samples):
-
-            # Load the chosen video frame using opencv
-            video.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
-            ret, frame = video.read()
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-            # resize and save the image using pillow
-            frame = Image.fromarray(frame).resize(resize)
-            frame.save(image_path / f"{idx:05d}.jpg")
+        enumerator = tqdm(enumerate(indices), total=n_samples)
+        Parallel(n_jobs=-1)(delayed(save_frame)(x, y) for x, y in enumerator)
 
 
 if __name__ == "__main__":
@@ -43,4 +52,4 @@ if __name__ == "__main__":
     storage_path.mkdir(parents=True, exist_ok=True)
 
 
-    load_images(13, video_path, (1024, 1024))
+    load_images(5, video_path, (1024, 1024))
