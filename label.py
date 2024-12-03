@@ -17,10 +17,9 @@ from src.helpers.misc import get_default_device_string, make_device_config
 #.......................................................................................................................
 # Initialize SAM 2 and image data
 
-model_path = "tm/sam2_small.pt"
-video_path = "videos/plastic_bag.mp4"
-storage_path = "datasets/plastic_bag"
-display_size = 900
+model_path = "tm/sam_hiera_base.pt"
+storage_path = "datasets/C1H0_CAM01"
+display_size = 700
 
 # Display the start of loading the model weights
 print("", "Loading model weights...", sep="\n", flush=True)
@@ -31,7 +30,7 @@ config_dict, model = make_sam(model_path)
 
 # Convert the model to mixed precision and initialize the image data
 model.to(**make_device_config(device, False))
-video = ImageData(storage_path=storage_path, video_path=video_path)
+video = ImageData(storage_path=storage_path)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +102,7 @@ while not video.is_finished():
             n_masks = video.saved_masks()
             n_images = video.saved_images()
             saved_masks_btn.set_text(f"{n_masks}/{n_images}")
+
 
         # Only run the model when an input affecting the output has changed!
         if need_prompt_encode:
