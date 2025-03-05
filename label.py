@@ -18,7 +18,7 @@ from src.helpers.misc import get_default_device_string, make_device_config
 # Initialize SAM 2 and image data
 
 model_path = "tm/sam_hiera_base.pt"
-storage_path = "datasets/training"
+storage_path = "data/training"
 display_size = 700
 
 # Display the start of loading the model weights
