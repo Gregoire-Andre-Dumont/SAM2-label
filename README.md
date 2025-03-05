@@ -30,5 +30,5 @@ pip install -r requirements.txt
 
 ### 3. Model weights
 
-You'll need to download the weights for SAM 2. There are four officially supported models: tiny, small, base-plus, and large. This project uses the exact same weights as the original implementations, which can be downloaded from the Model Description section of this [repository](https://github.com/facebookresearch/sam2?tab=readme-ov-file#model-description). Note that only the checkpoint files are required. After downloading a model file, you can place it in the tm folder of this repository. Alternatively, you can keep track of the file path, as you will need to provide it when running create_references and memory_sam
+You'll need to download the weights for SAM 2. There are four officially supported models: tiny, small, base-plus, and large. This project uses the exact same weights as the original implementations, which can be downloaded from the Model Description section of this [repository](https://github.com/facebookresearch/sam2?tab=readme-ov-file#model-description). Note that only the checkpoint files are required. After downloading a model file, you can place it in the tm folder of this repository.
 
