@@ -1,6 +1,6 @@
 # Sam2 label
 
-This repository is based on [muggled sam](https://github.com/heyoeyo/muggled_sam) and allows you 
+This repository is based on [muggled sam](https://github.com/heyoeyo/muggled_sam) and let's you create accurate masks with a straightforward user-interface
  
 <p align="center">
   <img src="readme_assets/create.jpg" width="500">
