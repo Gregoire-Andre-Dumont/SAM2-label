@@ -91,5 +91,6 @@ venv.bak/
 tm/
 videos/
 datasets/
+outputs
 
 

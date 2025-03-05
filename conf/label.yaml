@@ -1,4 +1,3 @@
-model_path: "tm/sam2_hiera_base_plus.pt"
-storage_path: "data/references"
+model_path: "tm/sam_hiera_base.pt"
+storage_path: "data/training"
 display_size: 500
-prompt_folder: "sam_base_plus"
